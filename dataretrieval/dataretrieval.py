@@ -1,6 +1,6 @@
 from sys import argv
 
-import getdata
+from datagenerator import DataGenerator
 
 def main():
     try:
@@ -8,7 +8,15 @@ def main():
     except IndexError as e:
         print('Please pass a state and year to get data')
     
-    datalist = getdata.build_datalist(state, year)
+    datadict = DataGenerator(state, year)
+
+    itr = 0;
+
+    for incident in datadict.run_generator():
+        if datadict.is_domestic_violence(incident) is True:
+            itr += 1
+    print(itr)
+
 
 if __name__ == "__main__":
     main()
