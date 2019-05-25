@@ -7,8 +7,6 @@ verify_ssl = true
 
 [packages]
 requests = "*"
-io = "*"
-zipfile = "*"
 
 [requires]
 python_version = "3.7"

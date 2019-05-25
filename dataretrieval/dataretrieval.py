@@ -2,6 +2,7 @@ from sys import argv
 
 from datagenerator import DataGenerator
 
+
 def main():
     try:
         state, year = argv[1:]
@@ -10,7 +11,7 @@ def main():
     
     datadict = DataGenerator(state, year)
 
-    itr = 0;
+    itr = 0
 
     for incident in datadict.run_generator():
         if datadict.is_domestic_violence(incident) is True:

@@ -1,0 +1,9 @@
+{
+    "python.pythonPath": "/Users/lukewhyte/.local/share/virtualenvs/domestic-violence-tracker-tR91rqVP/bin/python",
+    "python.linting.pylintEnabled": false,
+    "python.linting.pep8Enabled": true,
+    "python.linting.pep8Args": [
+        "--ignore=E501,E701"
+    ],
+    "python.linting.enabled": true
+}
