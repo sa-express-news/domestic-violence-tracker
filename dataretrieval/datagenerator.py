@@ -4,7 +4,6 @@ from collections import OrderedDict
 import filename_map
 from zipgenerator import ZipGenerator
 
-import pdb
 
 class DataGenerator():
     """ Run a generator that will iterator over all the incidents in the data
@@ -17,7 +16,7 @@ class DataGenerator():
 
     def __getattr__(self, attr):
         return getattr(self.zip_generator, attr)
-    
+
     def _get_cols(self, lookup, row):
         """Filtered out only the columns wanted from each csv"""
         return OrderedDict((col, row[col]) for col in lookup['cols'])
@@ -31,7 +30,7 @@ class DataGenerator():
                 self._dict[lookup['key']][row[lookup['uniq']]] = self._get_cols(lookup, row)
             except:
                 print('error with %s' % (name))
-    
+
     def _get_hash(self, key, uniq):
         hash = None
         try:
@@ -59,17 +58,19 @@ class DataGenerator():
     def is_related_to_offender(self, victim):
         relationship = self._get_hash('NIBRS_VICTIM_OFFENDER_REL', victim['VICTIM_ID'])
         if relationship is not None:
-            return int(relationship['RELATIONSHIP_ID']) in set([27,3,4,6,10,11,12,13,15,17,19,20,21,22,23,26])
+            dv_like_relationships = set([27, 3, 4, 6, 10, 11, 12, 13, 15, 17, 19, 20, 21, 22, 23, 26])
+            return int(relationship['RELATIONSHIP_ID']) in dv_like_relationships
         else:
-            False;
+            return False
 
     def is_violent_offense(self, incident):
         offense = self._get_hash('NIBRS_OFFENSE', incident['INCIDENT_ID'])
         if offense is not None:
-            return int(offense['OFFENSE_TYPE_ID']) in set([1,3,4,27,32,36,38,43,51])
+            violent_offenses = set([1, 3, 4, 27, 32, 36, 38, 43, 51])
+            return int(offense['OFFENSE_TYPE_ID']) in violent_offenses
         else:
             return False
-    
+
     def is_domestic_violence(self, incident):
         victim = self._get_hash('NIBRS_VICTIM', incident['INCIDENT_ID'])
         if victim is not None:

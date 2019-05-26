@@ -25,8 +25,8 @@ class TestZipGenerator(unittest.TestCase):
 
     def test__build_url(self):
         """build an fbi download url"""
-        zip_generator = ZipGenerator('USA', 1847)
-        expected = 'http://s3-us-gov-west-1.amazonaws.com/cg-d4b776d0-d898-4153-90c8-8336f86bdfec/1847/USA-1847.zip'
+        zip_generator = ZipGenerator('USA', 2016)
+        expected = 'http://s3-us-gov-west-1.amazonaws.com/cg-d4b776d0-d898-4153-90c8-8336f86bdfec/2016/USA-2016.zip'
         result = zip_generator._url
 
         self.assertEqual(result, expected)
@@ -58,19 +58,19 @@ class TestZipGenerator(unittest.TestCase):
 
     def test_extract_zip(self):
         """Are zips yielded as intended"""
-        zip_generator = ZipGenerator('KS', 2017)
+        zip_generator = ZipGenerator('KS', 2015)
         zip_generator.download_zip()
         infolist = zipfile.ZipFile(io.BytesIO(zip_generator._response.content)).infolist()
 
         last = len(infolist) - 1
         result = None
-        expected = 'KS/NIBRS_incident.csv'
+        expected = 'nibrs_incident.csv'
 
         for idx, file in enumerate(zip_generator.extract_zip()):
             if idx == last:
                 result = file[0]
         
-        self.assertEqual(result, expected)
+        self.assertIn(expected, result.lower())
 
 
 if __name__ == '__main__':
