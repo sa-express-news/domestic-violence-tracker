@@ -17,7 +17,7 @@ class TestZipGenerator(unittest.TestCase):
         ]
 
         zip_generator = ZipGenerator('TX', 2017)
-        
+
         expected = 2
         result = zip_generator._get_incidents_idx(zips)
 
@@ -45,7 +45,7 @@ class TestZipGenerator(unittest.TestCase):
         ]
 
         zip_generator = ZipGenerator('FL', 2010)
-        
+
         zip_generator._move_incidents_to_end_of_list(infolist_one)
         expected = 2
         result = zip_generator._get_incidents_idx(infolist_one)
@@ -69,7 +69,7 @@ class TestZipGenerator(unittest.TestCase):
         for idx, file in enumerate(zip_generator.extract_zip()):
             if idx == last:
                 result = file[0]
-        
+
         self.assertIn(expected, result.lower())
 
 

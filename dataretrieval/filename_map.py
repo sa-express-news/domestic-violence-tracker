@@ -1,138 +1,153 @@
 filename_map = {
-    'TX/agencies.csv': {
+    'agencies.csv': {
         'key': 'agencies',
-        'uniq': 'AGENCY_ID',
-        'cols': ['AGENCY_ID', 'ORI', 'NCIC_AGENCY_NAME', 'PUB_AGENCY_UNIT', 'STATE_ID', 'STATE_NAME', 'STATE_ABBR', 'DIVISION_CODE', 'DIVISION_NAME', 'REGION_CODE', 'REGION_NAME', 'AGENCY_TYPE_NAME', 'POPULATION', 'POPULATION_GROUP_ID', 'POPULATION_GROUP_CODE', 'POPULATION_GROUP_DESC', 'NIBRS_START_DATE', 'COUNTY_NAME', 'MSA_NAME'],
+        'uniq': 'agency_id',
+        'cols': ['agency_id', 'ori', 'ncic_agency_name', 'state_id', 'state_abbr', 'population', 'population_group_code', 'population_group_desc', 'nibrs_start_date', 'county_name'],
     },
-    'TX/NIBRS_AGE.csv': {
-        'key': 'NIBRS_AGE',
-        'uniq': 'AGE_ID',
-        'cols':	['AGE_ID', 'AGE_NAME'],
+    'cde_agencies.csv': {
+        'key': 'agencies',
+        'uniq': 'agency_id',
+        'cols': ['agency_id', 'ori', 'agency_name', 'state_id', 'state_abbr', 'population', 'population_group_code', 'population_group_desc', 'start_year', 'primary_county'],
+        'map_cols_to': 'agencies.csv'
     },
-    'TX/NIBRS_ARREST_TYPE.csv': {
-        'key': 'NIBRS_ARREST_TYPE',
-        'uniq': 'ARREST_TYPE_ID',
-        'cols':	['ARREST_TYPE_ID', 'ARREST_TYPE_NAME'],
+    'nibrs_age.csv': {
+        'key': 'nibrs_age',
+        'uniq': 'age_id',
+        'cols': ['age_id', 'age_name'],
     },
-    'TX/NIBRS_ARRESTEE_WEAPON.csv': {
-        'key': 'NIBRS_ARRESTEE_WEAPON',
-        'uniq': 'ARRESTEE_ID',
-        'cols':	['ARRESTEE_ID', 'WEAPON_ID'],
+    'nibrs_arrest_type.csv': {
+        'key': 'nibrs_arrest_type',
+        'uniq': 'arrest_type_id',
+        'cols': ['arrest_type_id', 'arrest_type_name'],
     },
-    'TX/NIBRS_ARRESTEE.csv': {
-        'key': 'NIBRS_ARRESTEE',
-        'uniq': 'INCIDENT_ID',
-        'cols':	['AGE_ID', 'ARRESTEE_ID', 'INCIDENT_ID', 'ARRESTEE_SEQ_NUM', 'ARREST_DATE', 'MULTIPLE_INDICATOR', 'OFFENSE_TYPE_ID', 'AGE_NUM', 'SEX_CODE', 'RACE_ID', 'ETHNICITY_ID'],
+    'nibrs_arrestee_weapon.csv': {
+        'key': 'nibrs_arrestee_weapon',
+        'uniq': 'arrestee_id',
+        'cols': ['arrestee_id', 'weapon_id'],
     },
-    'TX/NIBRS_CLEARED_EXCEPT.csv': {
-        'key': 'NIBRS_CLEARED_EXCEPT',
-        'uniq': 'CLEARED_EXCEPT_ID',
-        'cols':	['CLEARED_EXCEPT_ID', 'CLEARED_EXCEPT_DESC'],
+    'nibrs_arrestee.csv': {
+        'key': 'nibrs_arrestee',
+        'uniq': 'incident_id',
+        'cols': ['age_id', 'arrestee_id', 'incident_id', 'arrestee_seq_num', 'arrest_date', 'multiple_indicator', 'offense_type_id', 'age_num', 'sex_code', 'race_id', 'ethnicity_id'],
     },
-    'TX/NIBRS_ETHNICITY.csv': {
-        'key': 'NIBRS_ETHNICITY',
-        'uniq': 'ETHNICITY_ID',
-        'cols':	['ETHNICITY_ID', 'ETHNICITY_NAME'],
+    'nibrs_cleared_except.csv': {
+        'key': 'nibrs_cleared_except',
+        'uniq': 'cleared_except_id',
+        'cols': ['cleared_except_id', 'cleared_except_desc'],
     },
-    'TX/NIBRS_INJURY.csv': {
-        'key': 'NIBRS_INJURY',
-        'uniq': 'INJURY_ID',
-        'cols':	['INJURY_ID', 'INJURY_NAME'],
+    'nibrs_ethnicity.csv': {
+        'key': 'nibrs_ethnicity',
+        'uniq': 'ethnicity_id',
+        'cols': ['ethnicity_id', 'ethnicity_name'],
     },
-    'TX/NIBRS_LOCATION_TYPE.csv': {
-        'key': 'NIBRS_LOCATION_TYPE',
-        'uniq': 'LOCATION_ID',
-        'cols':	['LOCATION_ID', 'LOCATION_NAME'],
+    'nibrs_injury.csv': {
+        'key': 'nibrs_injury',
+        'uniq': 'injury_id',
+        'cols': ['injury_id', 'injury_name'],
     },
-    'TX/NIBRS_OFFENDER.csv': {
-        'key': 'NIBRS_OFFENDER',
-        'uniq': 'INCIDENT_ID',
-        'cols':	['AGE_ID', 'INCIDENT_ID', 'AGE_NUM', 'SEX_CODE', 'RACE_ID', 'ETHNICITY_ID', 'OFFENDER_ID', 'OFFENDER_SEQ_NUM'],
+    'nibrs_location_type.csv': {
+        'key': 'nibrs_location_type',
+        'uniq': 'location_id',
+        'cols': ['location_id', 'location_name'],
     },
-    'TX/NIBRS_OFFENSE_TYPE.csv': {
-        'key': 'NIBRS_OFFENSE_TYPE',
-        'uniq': 'OFFENSE_TYPE_ID',
-        'cols':	['OFFENSE_TYPE_ID', 'OFFENSE_NAME'],
+    'nibrs_offender.csv': {
+        'key': 'nibrs_offender',
+        'uniq': 'incident_id',
+        'cols': ['age_id', 'incident_id', 'age_num', 'sex_code', 'race_id', 'ethnicity_id', 'offender_id', 'offender_seq_num'],
     },
-    'TX/NIBRS_OFFENSE.csv': {
-        'key': 'NIBRS_OFFENSE',
-        'uniq': 'INCIDENT_ID',
-        'cols':	['INCIDENT_ID', 'OFFENSE_TYPE_ID', 'LOCATION_ID', 'OFFENSE_ID'],
+    'nibrs_offense_type.csv': {
+        'key': 'nibrs_offense_type',
+        'uniq': 'offense_type_id',
+        'cols': ['offense_type_id', 'offense_name'],
     },
-    'TX/NIBRS_RELATIONSHIP.csv': {
-        'key': 'NIBRS_RELATIONSHIP',
-        'uniq': 'RELATIONSHIP_ID',
-        'cols':	['RELATIONSHIP_ID', 'RELATIONSHIP_NAME'],
+    'nibrs_offense.csv': {
+        'key': 'nibrs_offense',
+        'uniq': 'incident_id',
+        'cols': ['incident_id', 'offense_type_id', 'location_id', 'offense_id'],
     },
-    'TX/NIBRS_SUSPECT_USING.csv': {
-        'key': 'NIBRS_SUSPECT_USING',
-        'uniq': 'OFFENSE_ID',
-        'cols':	['OFFENSE_ID', 'SUSPECT_USING_ID'],
+    'nibrs_relationship.csv': {
+        'key': 'nibrs_relationship',
+        'uniq': 'relationship_id',
+        'cols': ['relationship_id', 'relationship_name'],
     },
-    'TX/NIBRS_SUSPECTED_DRUG_TYPE.csv': {
-        'key': 'NIBRS_SUSPECTED_DRUG_TYPE',
-        'uniq': 'SUSPECTED_DRUG_TYPE_ID',
-        'cols':	['SUSPECTED_DRUG_TYPE_ID', 'SUSPECTED_DRUG_NAME'],
+    'nibrs_suspect_using.csv': {
+        'key': 'nibrs_suspect_using',
+        'uniq': 'offense_id',
+        'cols': ['offense_id', 'suspect_using_id'],
     },
-    'TX/NIBRS_SUSPECTED_DRUG.csv': {
-        'key': 'NIBRS_SUSPECTED_DRUG',
-        'uniq': 'SUSPECTED_DRUG_TYPE_ID',
-        'cols':	['SUSPECTED_DRUG_TYPE_ID', 'EST_DRUG_QTY', 'DRUG_MEASURE_TYPE_ID'],
+    'nibrs_suspected_drug_type.csv': {
+        'key': 'nibrs_suspected_drug_type',
+        'uniq': 'suspected_drug_type_id',
+        'cols': ['suspected_drug_type_id', 'suspected_drug_name'],
     },
-    'TX/NIBRS_USING_LIST.csv': {
-        'key': 'NIBRS_USING_LIST',
-        'uniq': 'SUSPECT_USING_ID',
-        'cols':	['SUSPECT_USING_ID', 'SUSPECT_USING_NAME'],
+    'nibrs_suspected_drug.csv': {
+        'key': 'nibrs_suspected_drug',
+        'uniq': 'suspected_drug_type_id',
+        'cols': ['suspected_drug_type_id', 'est_drug_qty', 'drug_measure_type_id'],
     },
-    'TX/NIBRS_VICTIM_CIRCUMSTANCES.csv': {
-        'key': 'NIBRS_VICTIM_CIRCUMSTANCES',
-        'uniq': 'VICTIM_ID',
-        'cols':	['CIRCUMSTANCES_ID', 'VICTIM_ID'],
+    'nibrs_using_list.csv': {
+        'key': 'nibrs_using_list',
+        'uniq': 'suspect_using_id',
+        'cols': ['suspect_using_id', 'suspect_using_name'],
     },
-    'TX/NIBRS_VICTIM_INJURY.csv': {
-        'key': 'NIBRS_VICTIM_INJURY',
-        'uniq': 'VICTIM_ID',
-        'cols':	['INJURY_ID', 'VICTIM_ID'],
+    'nibrs_victim_circumstances.csv': {
+        'key': 'nibrs_victim_circumstances',
+        'uniq': 'victim_id',
+        'cols': ['circumstances_id', 'victim_id'],
     },
-    'TX/NIBRS_VICTIM_OFFENDER_REL.csv': {
-        'key': 'NIBRS_VICTIM_OFFENDER_REL',
-        'uniq': 'VICTIM_ID',
-        'cols':	['OFFENDER_ID', 'RELATIONSHIP_ID', 'VICTIM_ID'],
+    'nibrs_victim_injury.csv': {
+        'key': 'nibrs_victim_injury',
+        'uniq': 'victim_id',
+        'cols': ['injury_id', 'victim_id'],
     },
-    'TX/NIBRS_VICTIM_OFFENSE.csv': {
-        'key': 'NIBRS_VICTIM_OFFENSE',
-        'uniq': 'VICTIM_ID',
-        'cols':	['OFFENSE_ID', 'VICTIM_ID'],
+    'nibrs_victim_offender_rel.csv': {
+        'key': 'nibrs_victim_offender_rel',
+        'uniq': 'victim_id',
+        'cols': ['offender_id', 'relationship_id', 'victim_id'],
     },
-    'TX/NIBRS_VICTIM_TYPE.csv': {
-        'key': 'NIBRS_VICTIM_TYPE',
-        'uniq': 'VICTIM_TYPE_ID',
-        'cols':	['VICTIM_TYPE_ID', 'VICTIM_TYPE_NAME'],
+    'nibrs_victim_offense.csv': {
+        'key': 'nibrs_victim_offense',
+        'uniq': 'victim_id',
+        'cols': ['offense_id', 'victim_id'],
     },
-    'TX/NIBRS_VICTIM.csv': {
-        'key': 'NIBRS_VICTIM',
-        'uniq': 'INCIDENT_ID',
-        'cols':	['AGE_ID', 'INCIDENT_ID', 'AGE_NUM', 'SEX_CODE', 'RACE_ID', 'ETHNICITY_ID', 'VICTIM_ID', 'VICTIM_TYPE_ID', 'VICTIM_SEQ_NUM'],
+    'nibrs_victim_type.csv': {
+        'key': 'nibrs_victim_type',
+        'uniq': 'victim_type_id',
+        'cols': ['victim_type_id', 'victim_type_name'],
     },
-    'TX/NIBRS_WEAPON_TYPE.csv': {
-        'key': 'NIBRS_WEAPON_TYPE',
-        'uniq': 'WEAPON_ID',
-        'cols':	['WEAPON_ID', 'WEAPON_NAME'],
+    'nibrs_victim.csv': {
+        'key': 'nibrs_victim',
+        'uniq': 'incident_id',
+        'cols': ['age_id', 'incident_id', 'age_num', 'sex_code', 'race_id', 'ethnicity_id', 'victim_id', 'victim_type_id', 'victim_seq_num'],
     },
-    'TX/NIBRS_WEAPON.csv': {
-        'key': 'NIBRS_WEAPON',
-        'uniq': 'OFFENSE_ID',
-        'cols':	['WEAPON_ID', 'OFFENSE_ID'],
+    'nibrs_weapon_type.csv': {
+        'key': 'nibrs_weapon_type',
+        'uniq': 'weapon_id',
+        'cols': ['weapon_id', 'weapon_name'],
     },
-    'TX/REF_RACE.csv': {
-        'key': 'REF_RACE',
-        'uniq': 'RACE_ID',
-        'cols':	['RACE_ID', 'RACE_DESC'],
+    'nibrs_weapon.csv': {
+        'key': 'nibrs_weapon',
+        'uniq': 'offense_id',
+        'cols': ['weapon_id', 'offense_id'],
+    },
+    'ref_race.csv': {
+        'key': 'ref_race',
+        'uniq': 'race_id',
+        'cols': ['race_id', 'race_desc'],
     },
 }
 
+
 def key_exists(key):
     return key in filename_map
+
+
+def map_col_name(lookup, idx):
+    try:
+        return filename_map[lookup['map_cols_to']]['cols'][idx]
+    except:
+        print(f'Problem mapping lookup: {lookup["key"]} with idx: {idx}')
+
 
 def get_data(key):
     return filename_map[key]

@@ -1,5 +1,5 @@
 import requests
-import io
+from io import BytesIO
 import zipfile
 
 import filename_map
@@ -20,7 +20,7 @@ class ZipGenerator():
     @classmethod
     def _build_url(cls, state, year):
         """FBI URL structure as of 5/21/2019"""
-        base = cls.new_base_path if year > 2015 else cls.old_base_path
+        base = cls.new_base_path if int(year) > 2015 else cls.old_base_path
         return f'{base}/{year}/{state}-{year}.zip'
 
     def _get_incidents_idx(self, lst):
@@ -47,7 +47,7 @@ class ZipGenerator():
         """Yield all of the files contained in the zip for a single state and year"""
         if self._response is None:
             self.download_zip()
-        with zipfile.ZipFile(io.BytesIO(self._response.content)) as thezip:
+        with zipfile.ZipFile(BytesIO(self._response.content)) as thezip:
             for zipinfo in self._move_incidents_to_end_of_list(thezip.infolist()):
                 with thezip.open(zipinfo) as thefile:
-                    yield zipinfo.filename, io.TextIOWrapper(thefile, encoding="utf-8")
+                    yield zipinfo.filename, thefile
