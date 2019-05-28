@@ -1,6 +1,4 @@
 import unittest
-import csv
-from io import TextIOWrapper
 
 import filename_map
 from datagenerator import DataGenerator

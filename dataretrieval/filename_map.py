@@ -138,8 +138,13 @@ filename_map = {
 }
 
 
+def handle_slash(key):
+    slashIdx = key.find('/')
+    return key[slashIdx + 1:] if slashIdx != -1 else key
+
+
 def key_exists(key):
-    return key in filename_map
+    return handle_slash(key).lower() in filename_map
 
 
 def map_col_name(lookup, idx):
@@ -150,4 +155,4 @@ def map_col_name(lookup, idx):
 
 
 def get_data(key):
-    return filename_map[key]
+    return filename_map[handle_slash(key).lower()]

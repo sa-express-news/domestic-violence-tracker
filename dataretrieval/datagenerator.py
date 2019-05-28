@@ -1,5 +1,6 @@
 from io import TextIOWrapper
 import csv
+import itertools
 
 import filename_map
 from zipgenerator import ZipGenerator
@@ -33,11 +34,17 @@ class DataGenerator():
                 hash[key] = row[col]
         return hash
 
+    def _lowercase_first_row(self, iterator):
+        return itertools.chain([next(iterator).lower()], iterator)
+
+    def _byte_to_text(self, file):
+        return self._lowercase_first_row(TextIOWrapper(file, encoding="utf-8"))
+
     def _add_to_dict(self, lookup, file):
         """Add a CSV to the dictionary"""
         self._dict[lookup['key']] = {}
         filter = self._map_filter_agency_cols if 'map_cols_to' in lookup else self._filter_cols
-        for row in csv.DictReader(TextIOWrapper(file, encoding="utf-8")):
+        for row in csv.DictReader(self._byte_to_text(file)):
             try:
                 uniqID = row[lookup['uniq']]
                 rowHash = filter(lookup, row)
@@ -59,7 +66,7 @@ class DataGenerator():
         """This is the main method, it yields the incidents and places the related data in hashes"""
         for name, file in self.extract_zip():
             if 'nibrs_incident.csv' in name.lower():  # by design, this is the last element in the list
-                for row in csv.DictReader(TextIOWrapper(file, encoding="utf-8")):
+                for row in csv.DictReader(self._byte_to_text(file)):
                     yield row
             elif filename_map.key_exists(name):
                 lookup = filename_map.get_data(name)

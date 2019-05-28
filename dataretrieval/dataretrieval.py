@@ -9,12 +9,12 @@ def main():
     except IndexError as e:
         print('Please pass a state and year to get data')
     
-    datadict = DataGenerator(state, year)
+    data_generator = DataGenerator(state, year)
 
     itr = 0
 
-    for incident in datadict.run_generator():
-        if datadict.is_domestic_violence(incident) is True:
+    for incident in data_generator.run_generator():
+        if data_generator.is_domestic_violence(incident) is True:
             itr += 1
     print(itr)
 
