@@ -24,7 +24,7 @@ class TestDataGenerator(unittest.TestCase):
 
         self.assertDictEqual(expected, result)
 
-    def test__map_filter_agency_cols(self):
+    def test__map_filter_cols(self):
         lookup = filename_map.get_data('cde_agencies.csv')
         row = {
             'merp': 'herro',
@@ -39,7 +39,7 @@ class TestDataGenerator(unittest.TestCase):
             'ori': 47,
             'county_name': 'Mexicaliand',
         }
-        result = data_generator._map_filter_agency_cols(lookup, row)
+        result = data_generator._map_filter_cols(lookup, row)
 
         self.assertDictEqual(expected, result)
 

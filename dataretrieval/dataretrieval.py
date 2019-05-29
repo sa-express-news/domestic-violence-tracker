@@ -1,6 +1,7 @@
 from sys import argv
 
 from datagenerator import DataGenerator
+from exportmodel import ExportModel
 
 
 def main():
@@ -8,7 +9,7 @@ def main():
         state, year = argv[1:]
     except IndexError as e:
         print('Please pass a state and year to get data')
-    
+
     data_generator = DataGenerator(state, year)
 
     itr = 0

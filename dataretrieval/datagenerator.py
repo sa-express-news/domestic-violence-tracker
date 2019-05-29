@@ -22,7 +22,7 @@ class DataGenerator():
         """Filtered out only the columns wanted from each csv"""
         return {col: row[col] for col in lookup['cols'] if col in row}
 
-    def _map_filter_agency_cols(self, lookup, row):
+    def _map_filter_cols(self, lookup, row):
         """Since agency files differ between years, we need to map to matching values and filter.
             This is achieved by adding a 'map_cols_to' property to files produced before 2016
             and mapping their column names to the names on the newer files
@@ -41,9 +41,12 @@ class DataGenerator():
         return self._lowercase_first_row(TextIOWrapper(file, encoding="utf-8"))
 
     def _add_to_dict(self, lookup, file):
-        """Add a CSV to the dictionary"""
+        """Add a CSV to the dictionary to be referenced while iterating incidents
+            This is expensive, but I think the time saved by building a reference
+            hash is worth it overall
+        """
         self._dict[lookup['key']] = {}
-        filter = self._map_filter_agency_cols if 'map_cols_to' in lookup else self._filter_cols
+        filter = self._map_filter_cols if 'map_cols_to' in lookup else self._filter_cols
         for row in csv.DictReader(self._byte_to_text(file)):
             try:
                 uniqID = row[lookup['uniq']]
@@ -70,7 +73,7 @@ class DataGenerator():
                     yield row
             elif filename_map.key_exists(name):
                 lookup = filename_map.get_data(name)
-                self._add_to_dict(lookup, file)  # this is expensive, but I think the time saved by building a reference hash is worth it overall
+                self._add_to_dict(lookup, file)
         self._dict.clear()
 
     def is_classified_as_dv(self, victim):
