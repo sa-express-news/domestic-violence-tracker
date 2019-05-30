@@ -24,8 +24,8 @@ class DataGenerator():
 
     def _map_filter_cols(self, lookup, row):
         """Since agency files differ between years, we need to map to matching values and filter.
-            This is achieved by adding a 'map_cols_to' property to files produced before 2016
-            and mapping their column names to the names on the newer files
+            This is achieved by adding a 'map_col_names_to' property to the filename_map for files produced
+            before 2016 and mapping their column names to the names on the newer files
         """
         hash = dict()
         for idx, col in enumerate(lookup['cols']):
@@ -42,11 +42,13 @@ class DataGenerator():
 
     def _add_to_dict(self, lookup, file):
         """Add a CSV to the dictionary to be referenced while iterating incidents
-            This is expensive, but I think the time saved by building a reference
-            hash is worth it overall
+            This is expensive, but I think the lookup time saved by building a
+            reference hash is worth it overall
         """
         self._dict[lookup['key']] = {}
+
         filter = self._map_filter_cols if 'map_cols_to' in lookup else self._filter_cols
+
         for row in csv.DictReader(self._byte_to_text(file)):
             try:
                 uniqID = row[lookup['uniq']]
@@ -58,12 +60,12 @@ class DataGenerator():
             except:
                 print('error with %s' % (name))
 
-    def _get_hash(self, key, uniq):
-        hash = None
+    def _get_hash_arr(self, key, uniq):
+        arr = None
         try:
-            hash = self._dict[key][uniq]
+            arr = self._dict[key][uniq]
         finally:
-            return hash
+            return arr
 
     def run_generator(self):
         """This is the main method, it yields the incidents and places the related data in hashes"""
@@ -75,36 +77,3 @@ class DataGenerator():
                 lookup = filename_map.get_data(name)
                 self._add_to_dict(lookup, file)
         self._dict.clear()
-
-    def is_classified_as_dv(self, victim):
-        circumstances = self._get_hash('nibrs_victim_circumstances', victim['victim_id'])
-        if circumstances is not None:
-            return (any(circumstance['circumstances_id'] == '6' for circumstance in circumstances))
-        else:
-            return False
-
-    def is_related_to_offender(self, victim):
-        relationships = self._get_hash('nibrs_victim_offender_rel', victim['victim_id'])
-        if relationships is not None:
-            dv_like_relationships = set([27, 3, 4, 6, 10, 11, 12, 13, 15, 17, 19, 20, 21, 22, 23, 26])
-            return any(int(relationship['relationship_id']) in dv_like_relationships for relationship in relationships)
-        else:
-            return False
-
-    def is_violent_offense(self, incident):
-        offenses = self._get_hash('nibrs_offense', incident['incident_id'])
-        if offenses is not None:
-            violent_offenses = set([1, 3, 4, 27, 32, 36, 38, 43, 51])
-            return any(int(offense['offense_type_id']) in violent_offenses for offense in offenses)
-        else:
-            return False
-
-    def is_domestic_violence(self, incident):
-        victims = self._get_hash('nibrs_victim', incident['incident_id'])
-        if victims is not None:
-            for victim in victims:
-                if self.is_classified_as_dv(victim) or (self.is_related_to_offender(victim) and self.is_violent_offense(incident)):
-                    return True
-            return False
-        else:
-            return False

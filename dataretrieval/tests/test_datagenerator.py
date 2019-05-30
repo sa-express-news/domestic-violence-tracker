@@ -58,38 +58,5 @@ class TestDataGenerator(unittest.TestCase):
         result = list(data_generator._dict['nibrs_victim']['68950600'][0].keys())
         self.assertCountEqual(expected, result)
 
-    def test_filter_dv_functions(self):
-        data_generator = DataGenerator('SC', 2014)
-        for incident in data_generator.run_generator():
-            if incident['incident_id'] == '74287496':
-                expected = True
-                result = data_generator.is_classified_as_dv(data_generator._get_hash('nibrs_victim', incident['incident_id'])[0])
-                self.assertEqual(expected, result)
-            if incident['incident_id'] == '74633158':
-                expected = True
-                result = data_generator.is_violent_offense(incident)
-                self.assertEqual(expected, result)
-            if incident['incident_id'] == '73401906':
-                expected = False
-
-                result = data_generator.is_violent_offense(incident)
-                self.assertEqual(expected, result)
-
-                result = data_generator.is_domestic_violence(incident)
-                self.assertEqual(expected, result)
-            if incident['incident_id'] == '73389548':
-                expected = True
-                
-                result = data_generator.is_related_to_offender(data_generator._get_hash('nibrs_victim', incident['incident_id'])[0])
-                self.assertEqual(expected, result)
-
-                result = data_generator.is_domestic_violence(incident)
-                self.assertEqual(expected, result)
-            if incident['incident_id'] == '79818151':
-                expected = False
-                result = data_generator.is_domestic_violence(incident)
-                self.assertEqual(expected, result)
-                
-
 if __name__ == '__main__':
     unittest.main()

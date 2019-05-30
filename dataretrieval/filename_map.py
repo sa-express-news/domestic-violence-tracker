@@ -8,27 +8,17 @@ filename_map = {
         'key': 'agencies',
         'uniq': 'agency_id',
         'cols': ['agency_id', 'ori', 'agency_name', 'state_id', 'state_abbr', 'population', 'population_group_code', 'population_group_desc', 'start_year', 'primary_county'],
-        'map_cols_to': 'agencies.csv'
-    },
-    'nibrs_age.csv': {
-        'key': 'nibrs_age',
-        'uniq': 'age_id',
-        'cols': ['age_id', 'age_name'],
-    },
-    'nibrs_arrest_type.csv': {
-        'key': 'nibrs_arrest_type',
-        'uniq': 'arrest_type_id',
-        'cols': ['arrest_type_id', 'arrest_type_name'],
-    },
-    'nibrs_arrestee_weapon.csv': {
-        'key': 'nibrs_arrestee_weapon',
-        'uniq': 'arrestee_id',
-        'cols': ['arrestee_id', 'weapon_id'],
+        'map_col_names_to': 'agencies.csv'
     },
     'nibrs_arrestee.csv': {
         'key': 'nibrs_arrestee',
         'uniq': 'incident_id',
-        'cols': ['age_id', 'arrestee_id', 'incident_id', 'arrestee_seq_num', 'arrest_date', 'multiple_indicator', 'offense_type_id', 'age_num', 'sex_code', 'race_id', 'ethnicity_id'],
+        'cols': ['arrestee_id', 'incident_id', 'arrestee_seq_num', 'arrest_date', 'multiple_indicator', 'offense_type_id', 'age_num', 'sex_code', 'race_id', 'ethnicity_id'],
+    },
+    'nibrs_circumstances.csv': {
+        'key': 'nibrs_circumstances',
+        'uniq': 'circumstances_id',
+        'cols': ['circumstances_id', 'circumstances_name'],
     },
     'nibrs_cleared_except.csv': {
         'key': 'nibrs_cleared_except',
@@ -53,7 +43,7 @@ filename_map = {
     'nibrs_offender.csv': {
         'key': 'nibrs_offender',
         'uniq': 'incident_id',
-        'cols': ['age_id', 'incident_id', 'age_num', 'sex_code', 'race_id', 'ethnicity_id', 'offender_id', 'offender_seq_num'],
+        'cols': ['incident_id', 'age_num', 'sex_code', 'race_id', 'ethnicity_id', 'offender_id', 'offender_seq_num'],
     },
     'nibrs_offense_type.csv': {
         'key': 'nibrs_offense_type',
@@ -74,16 +64,6 @@ filename_map = {
         'key': 'nibrs_suspect_using',
         'uniq': 'offense_id',
         'cols': ['offense_id', 'suspect_using_id'],
-    },
-    'nibrs_suspected_drug_type.csv': {
-        'key': 'nibrs_suspected_drug_type',
-        'uniq': 'suspected_drug_type_id',
-        'cols': ['suspected_drug_type_id', 'suspected_drug_name'],
-    },
-    'nibrs_suspected_drug.csv': {
-        'key': 'nibrs_suspected_drug',
-        'uniq': 'suspected_drug_type_id',
-        'cols': ['suspected_drug_type_id', 'est_drug_qty', 'drug_measure_type_id'],
     },
     'nibrs_using_list.csv': {
         'key': 'nibrs_using_list',
@@ -118,7 +98,7 @@ filename_map = {
     'nibrs_victim.csv': {
         'key': 'nibrs_victim',
         'uniq': 'incident_id',
-        'cols': ['age_id', 'incident_id', 'age_num', 'sex_code', 'race_id', 'ethnicity_id', 'victim_id', 'victim_type_id', 'victim_seq_num'],
+        'cols': ['incident_id', 'age_num', 'sex_code', 'race_id', 'ethnicity_id', 'victim_id', 'victim_type_id', 'victim_seq_num'],
     },
     'nibrs_weapon_type.csv': {
         'key': 'nibrs_weapon_type',
@@ -138,21 +118,21 @@ filename_map = {
 }
 
 
-def handle_slash(key):
+def remove_slash(key):
     slashIdx = key.find('/')
     return key[slashIdx + 1:] if slashIdx != -1 else key
 
 
 def key_exists(key):
-    return handle_slash(key).lower() in filename_map
+    return remove_slash(key).lower() in filename_map
 
 
 def map_col_name(lookup, idx):
     try:
-        return filename_map[lookup['map_cols_to']]['cols'][idx]
+        return filename_map[lookup['map_col_names_to']]['cols'][idx]
     except:
         print(f'Problem mapping lookup: {lookup["key"]} with idx: {idx}')
 
 
 def get_data(key):
-    return filename_map[handle_slash(key).lower()]
+    return filename_map[remove_slash(key).lower()]
