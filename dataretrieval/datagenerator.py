@@ -41,9 +41,10 @@ class DataGenerator():
         return self._lowercase_first_row(TextIOWrapper(file, encoding="utf-8"))
 
     def _add_to_dict(self, lookup, file):
-        """Add a CSV to the dictionary to be referenced while iterating incidents
-            This is expensive, but I think the lookup time saved by building a
-            reference hash is worth it overall
+        """Add a CSV row to the dictionary to be referenced while iterating incidents.
+            Rows are stored in an array to accomodate multiples. For instance, two victims
+            of one incident. This operation is expensive, but I think the lookup time
+            saved by building a reference hash is worth it overall
         """
         self._dict[lookup['key']] = {}
 
@@ -60,12 +61,49 @@ class DataGenerator():
             except:
                 print('error with %s' % (name))
 
-    def _get_hash_arr(self, key, uniq):
+    def _get_hash_list(self, key, uniq):
+        """Grab a list of dictionaries from a csv (key) with a unique ID (uniq)
+            For instance, uniq could be a victim_id or offense_id. A list is returned instead
+            of a single hash because, occassionally, incidents will involve multiple victims,
+            offenders, etc. If you know for sure you are pulling a list with one value
+            (eg a reference like 'agencies' or 'race_ref') use self._get_hash instead.
+        """
         arr = None
         try:
             arr = self._dict[key][uniq]
         finally:
             return arr
+
+    def _get_hash(self, key, uniq):
+        """Grab a single victim, offender, etc hash. These are stored in lists (see self._get_hash_list)
+            and this method should be used when you are sure only one value exists in the list. If more than
+            one hash exists in the selected array, an exception is raised
+        """
+        arr = self._get_hash_list(key, uniq)
+        if arr is not None:
+            try:
+                if len(arr) > 1:
+                    raise Exception(f'List in key: {key} and uniq: {uniq} has more than one element: {arr}')
+            except Exception as e:
+                print(e)
+            finally:
+                return arr[0]
+        else:
+            return {}
+
+    def _get_hash_through_reference(self, ref_key, ref_uniq, hash_key, hash_uniq):
+        """Obtain a hash when you don't have its unique ID for, but do have the unique ID for another
+            hash that references the desired hash. Thus, this is a way of stepping through an intermidiary
+            to a hash
+        """
+        refs = self._get_hash_list(ref_key, ref_uniq)
+        if refs is not None:
+            for ref in refs:
+                if ref_uniq in ref and hash_uniq in ref:
+                    return self._get_hash(hash_key, ref[hash_uniq])
+            return {}  # This should be unreachable but, just to be safe...
+        else:
+            return {}
 
     def run_generator(self):
         """This is the main method, it yields the incidents and places the related data in hashes"""

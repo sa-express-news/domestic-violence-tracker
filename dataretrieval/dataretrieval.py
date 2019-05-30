@@ -1,7 +1,7 @@
 from sys import argv
 
 from tablebuilder import TableBuilder
-# from exporttable import ExportTable
+from exporters import export_to_csv
 
 
 def main():
@@ -12,12 +12,12 @@ def main():
 
     table_builder = TableBuilder(state, year)
 
-    itr = 0
-
     for incident in table_builder.run_data_generator():
         if table_builder.is_domestic_violence(incident) is True:
-            itr += 1
-    print(itr)
+            table_builder.populate_tables(incident)
+    
+    for file in table_builder.eject_all_tables():
+        export_to_csv(file['name'], file['table'])
 
 
 if __name__ == "__main__":

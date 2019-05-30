@@ -6,19 +6,19 @@ from datagenerator import DataGenerator
 
 class TestDataGenerator(unittest.TestCase):
     def test__get_cols(self):
-        lookup = filename_map.get_data('nibrs_arrest_type.csv')
+        lookup = filename_map.get_data('nibrs_location_type.csv')
         row = {
             'merp': 'herro',
-            'arrest_type_id': 47,
+            'location_id': 47,
             'mop': 788888,
-            'arrest_type_name': 'bad one',
+            'location_name': 'bad one',
         }
 
         data_generator = DataGenerator('KY', 2016)
 
         expected = {
-            'arrest_type_id': 47,
-            'arrest_type_name': 'bad one',
+            'location_id': 47,
+            'location_name': 'bad one',
         }
         result = data_generator._filter_cols(lookup, row)
 
@@ -54,7 +54,7 @@ class TestDataGenerator(unittest.TestCase):
         result = len(data_generator._dict['nibrs_victim'])
         self.assertEqual(expected, result)
 
-        expected = ['age_id', 'incident_id', 'age_num', 'sex_code', 'race_id', 'ethnicity_id', 'victim_id', 'victim_type_id', 'victim_seq_num']
+        expected = ['incident_id', 'age_num', 'sex_code', 'race_id', 'ethnicity_id', 'victim_id', 'victim_type_id', 'victim_seq_num']
         result = list(data_generator._dict['nibrs_victim']['68950600'][0].keys())
         self.assertCountEqual(expected, result)
 
