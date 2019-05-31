@@ -45,6 +45,7 @@ done
 
 unset IFS
 
+# concatenate the files and move the product to the output dir
 outputFile () {
     i=0
     output_file="./output/""$1"".csv"
@@ -66,4 +67,5 @@ outputFile "offenses"
 outputFile "victims"
 outputFile "arrestees"
 
+# remove the temp dir
 rm -rf temp/

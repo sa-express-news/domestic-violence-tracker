@@ -336,6 +336,7 @@ class TableBuilder():
     def eject_all_tables(self):
         for name, table in self._tables.items():
             yield {
-                'name': f'{name}-{self.state}-{self.year}',
+                'name': f'{name}',
+                'filename': f'{name}-{self.state}-{self.year}',
                 'table': table,
             }
