@@ -2,8 +2,6 @@ from functools import reduce
 
 from datagenerator import DataGenerator
 
-import pdb
-
 
 def merge_hashes(*argv):
     return reduce(lambda x, y: {**x, **y}, argv, {})
@@ -80,7 +78,7 @@ class TableBuilder():
         provided in the generic getters from DataGenerator
     """
     def _get_agency_fields(self, id):
-        agencies = self._get_hash_list('agencies', id)
+        agency = self._get_hash('agencies', id)
         return {
             'agency_name': agency.get('ncic_agency_name'),
             'ori': agency.get('ori'),
