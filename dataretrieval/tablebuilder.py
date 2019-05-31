@@ -78,7 +78,7 @@ class TableBuilder():
         provided in the generic getters from DataGenerator
     """
     def _get_agency_fields(self, id):
-        agency = self._get_hash('agencies', id)
+        agency = self._get_hash_list('agencies', id)[0]  # Sometimes there are multiple listings for agencies
         return {
             'agency_name': agency.get('ncic_agency_name'),
             'ori': agency.get('ori'),
