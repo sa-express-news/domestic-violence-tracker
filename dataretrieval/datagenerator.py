@@ -48,7 +48,7 @@ class DataGenerator():
         """
         self._dict[lookup['key']] = {}
 
-        filter = self._map_filter_cols if 'map_cols_to' in lookup else self._filter_cols
+        filter = self._map_filter_cols if 'map_col_names_to' in lookup else self._filter_cols
 
         for row in csv.DictReader(self._byte_to_text(file)):
             try:

@@ -58,5 +58,18 @@ class TestDataGenerator(unittest.TestCase):
         result = list(data_generator._dict['nibrs_victim']['68950600'][0].keys())
         self.assertCountEqual(expected, result)
 
+    def test__add_to_dict_with__map_filter_cols(self):
+        data_generator = DataGenerator('TX', 2000)
+        for name, file in data_generator.extract_zip():
+            if 'cde_agencies.csv' in name.lower():
+                lookup = filename_map.get_data(name)
+                data_generator._add_to_dict(lookup, file)
+
+        self.maxDiff = None
+
+        expected = ['agency_id', 'ori', 'ncic_agency_name', 'state_id', 'state_abbr', 'population', 'population_group_code', 'population_group_desc', 'nibrs_start_date', 'county_name']
+        result = list(data_generator._dict['agencies']['19089'][0].keys())
+        self.assertCountEqual(expected, result)
+
 if __name__ == '__main__':
     unittest.main()
